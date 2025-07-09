@@ -82,7 +82,9 @@ class PDProx():
         for t in range(1, self.iter + 1):
             # Step 3: Compute exp-hinge margin
             margins = 1 - y * (X @ w)
-            exp_terms = np.exp(-self.eta * alpha * margins)
+            z = -self.eta * alpha * margins
+            z = np.clip(z,-100,100)
+            exp_terms = np.exp(z)
 
             # ∇w (Step 4)
             G_w = -self.beta * X.T @ (alpha * y * exp_terms) / m
